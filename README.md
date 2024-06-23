@@ -50,7 +50,7 @@ And you should also have a profile txt saved in your current folder with the val
 
 Of course, this could be runned in a loop to get all the spectra profile with all the available satellitesm but this is a work in progress that should be ready before the end of the 2024 summer... (we'll see)
 
-There is a notebook showing more in deep the usage of the asd class. You sould find it [here]('/examples/netops_example.ipynb')
+There is a notebook showing more in deep the usage of the asd class. You sould find it [here]('../examples/netops_example.ipynb')
 
 
 ## ToDO
