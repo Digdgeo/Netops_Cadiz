@@ -170,7 +170,7 @@ class asd():
             resultados_media_ponderada_sat.append(media_ponderada_sat)          
         
         # Crear un DataFrame a partir de los resultados de las medias ponderadas
-        fname = 'MediaPonderada'+self.sat
+        fname = 'Media Ponderada ' + self.sat
         datos_sat_pond = pd.DataFrame({fname: resultados_media_ponderada_sat})        
         
         # Establecer los nombres de fila en el DataFrame
