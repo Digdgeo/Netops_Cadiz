@@ -27,7 +27,7 @@ setup(
 	author='Diego Garcia Diaz, Maria Dolores Raya-Sereno',
 	author_email='digd.geografo@gmail.com, mdolores.raya@cchs.csic.es',
 	license='MIT',
-	install_requires=['specdal >= 0.2.1', 'openpyxl >= 3.1.4'],
+	install_requires=['numpy', 'pandas', 'matplotlib', 'scipy', 'specdal >= 0.2.1', 'openpyxl >= 3.1.4'],
 	packages=find_packages(include=['netops_cadiz', 'netops_cadiz.*']),
 	zip_safe=False
 )
