@@ -71,7 +71,7 @@ class asd():
             print('Available satellites at the moment are "S2A", "S2B", "L8", "L9", "L7", L5" and "L4"')
 
         self.sensor = self.sats[self.sat][0]
-        print("comenzamos!")
+        #print("comenzamos!")
         
         self.sat_data = pd.read_excel(self.sensores, sheet_name=self.sats[self.sat][1]) #Indicamos la hoja del excel sensores en la que está el SRF
 
