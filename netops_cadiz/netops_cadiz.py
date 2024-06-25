@@ -1,4 +1,3 @@
-
 import os
 import pandas as pd
 import numpy as np
@@ -100,7 +99,7 @@ class asd():
 
         return datos_sat_pond  # Return the DataFrame with expected values
 
-    def plot_multiple_spectra(self, spectra_list, names=None, plot_expected=True, sats=None, print_values=False):
+    def plotSpecs(self, spectra_list, names=None, plot_expected=True, sats=None, print_values=False):
             
         if sats is None:
             sats = [self.sat]  # Plot expected data for the satellite specified during initialization by default
