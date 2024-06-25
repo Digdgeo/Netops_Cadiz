@@ -28,7 +28,7 @@ class asd():
         specs = [os.path.join(self.spec_path, i.strip(pref)) for i in os.listdir(self.spec_path)]
         return specs 
 
-    def txt2sat(self, spectra, name=None, plot=True, save_csv=False, csv_path=None, print_values=True):
+    def spec2sat(self, spectra, name=None, plot=True, save_csv=False, csv_path=None, print_values=True):
         
         if spectra.endswith('.txt'):
             try:
@@ -132,7 +132,7 @@ class asd():
                     self.sensor = self.sats[self.sat][0]
                     self.sat_data = pd.read_excel(self.sensores, sheet_name=self.sats[self.sat][1])
 
-                    expected_data = self.txt2sat(spectra, name=name, plot=False, print_values=print_values)
+                    expected_data = self.spec2sat(spectra, name=name, plot=False, print_values=print_values)
                     color = self.sats[sat][2]
                     plt.plot(expected_data['Wavelength'], expected_data[f'MediaPonderada{self.sat}'], '--', label=f'Expected {self.sat} - {name}', color=color)
                     self.sat = original_sat  # Restore the original satellite
@@ -146,7 +146,7 @@ class asd():
         plt.grid(True)
         plt.show()
         
-    def create_table_for_satellite(self, output_path):
+    def satTable(self, output_path):
         """
         Genera un archivo CSV con la respuesta de todos los espectros para el satélite especificado.
         """
@@ -158,7 +158,7 @@ class asd():
 
         for spectra in spectros:
             name = os.path.split(spectra)[1].split('.')[0]
-            datos_sat_pond = self.txt2sat(spectra, name=name, plot=False, save_csv=False, print_values=False)
+            datos_sat_pond = self.spec2sat(spectra, name=name, plot=False, save_csv=False, print_values=False)
             datos_sat_pond = datos_sat_pond.rename(columns={f'MediaPonderada{self.sat}': name})
             all_data.append(datos_sat_pond[name])
 
@@ -166,9 +166,9 @@ class asd():
         all_data_df.to_csv(output_path, index=True)
         print(f'Data saved to {output_path}')
 
-    def create_tables_for_all_spectra(self, output_dir):
+    def specsTable(self, output_dir):
         """
-        Genera un archivo CSV por cada espectro con los valores de todos los satélites disponibles.
+        Genera un archivo CSV por cada espectro con los valores de todos los satélites disponibles para cada espectro.
         """
         if not os.path.isdir(output_dir):
             raise NotADirectoryError(f"The provided output directory '{output_dir}' does not exist.")
@@ -184,7 +184,7 @@ class asd():
                 self.sensor = self.sats[self.sat][0]
                 self.sat_data = pd.read_excel(self.sensores, sheet_name=self.sats[self.sat][1])
 
-                datos_sat_pond = self.txt2sat(spectra, name=name, plot=False, save_csv=False, print_values=False)
+                datos_sat_pond = self.spec2sat(spectra, name=name, plot=False, save_csv=False, print_values=False)
                 datos_sat_pond = datos_sat_pond.rename(columns={f'MediaPonderada{self.sat}': sat})
                 all_sat_data.append(datos_sat_pond[sat])
 
