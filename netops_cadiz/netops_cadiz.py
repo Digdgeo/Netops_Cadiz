@@ -5,7 +5,17 @@ import specdal
 import matplotlib.pyplot as plt
 
 class asd():
+
     def __init__(self, sensores, spec_path, sat):
+
+        """Start the class creating an asd object
+
+        Args:
+            sensores (table): path to the provided excel file with the Spectral Response Functions stored_
+            spec_path (path): Path to the folder whre spectrum files are stored
+            sat (String): Satellite selected to get the expected bands values
+        """
+
         self.sensores = sensores
         self.spec_path = spec_path
         self.sats = {  'S2A': ['MSI', 1, 'blue'],'S2B': ['MSI', 2, 'green'],'L8': ['OLI', 3, 'red'],'L9': ['OLI', 4, 'purple'],'L7': ['ETM+', 7, 'orange'],'L5': ['TM', 6, 'brown'], 'L4': ['TM', 5, 'pink']}
@@ -22,6 +32,19 @@ class asd():
         self.sat_data = pd.read_excel(self.sensores, sheet_name=self.sats[self.sat][1]) #Indicamos la hoja del excel sensores en la que está el SRF
 
     def get_spectros(self, pref=None):
+        
+        """Generate a list with the full path of all the txt or asd files in the selected folder (spec_path)
+
+        Args:
+            pref (String, optional): String to strip from the full name of the spectrum files. Defaults to None.
+
+        Raises:
+            NotADirectoryError: Check is the path is a directory
+
+        Returns:
+            List: list with the full path to all the spectrum in the selected folder
+        """
+
         if not os.path.isdir(self.spec_path):
             raise NotADirectoryError(f"The provided path '{self.spec_path}' is not a directory.")
         specs = [os.path.join(self.spec_path, i.strip(pref)) for i in os.listdir(self.spec_path)]
@@ -29,6 +52,20 @@ class asd():
 
     def spec2sat(self, spectra, name=None, plot=True, save_csv=False, csv_path=None, print_values=True):
         
+        """Main method that makes most of the work
+
+        Args:
+            spectra (File): asd or txt file with the spectrum reflectance values
+            name (String, optional): name desired for the spectrum ("vegetation", "soil", ...). Defaults to None.
+            plot (bool, optional): Select if you want to plot your data. Defaults to True.
+            save_csv (bool, optional): Select if you want to save the expected satellite bands values to csv. Defaults to False.
+            csv_path (Path, optional): Path to store the csv file. Defaults to None.
+            print_values (bool, optional): Select if you want to print the band values. Defaults to True.
+
+        Returns:
+            DataFrame: DataFrame with the expected satellite bands values
+        """
+
         if spectra.endswith('.txt'):
             try:
                 datos_ASD = pd.read_csv(spectra, sep="\t", decimal=".", encoding='utf-8', on_bad_lines='skip')
@@ -100,7 +137,17 @@ class asd():
         return datos_sat_pond  # Return the DataFrame with expected values
 
     def plotSpecs(self, spectra_list, names=None, plot_expected=True, sats=None, print_values=False):
-            
+
+        """Method to plot several spectrums and satellite expected response together in the same graphic
+
+        Args:
+            spectra_list (List): List with the full path to the desired spectrums
+            names (List, optional): List with the names for each spectrum in the list. Defaults to None.
+            plot_expected (bool, optional): Select if you want to plot the expected values for some satellites. Defaults to True.
+            sats (List, optional): List with the names of the satellite that you want to plot. Defaults to None.
+            print_values (bool, optional): Select if you also want to see the bands values printed. Defaults to False.
+        """
+
         if sats is None:
             sats = [self.sat]  # Plot expected data for the satellite specified during initialization by default
 
@@ -146,9 +193,16 @@ class asd():
         plt.show()
         
     def satTable(self, output_path):
+
+        """Create a table with the values for all the spectrums with one selected satellite
+
+        Args:
+            output_path (Path): Path to store the csv with the values
+
+        Raises:
+            NotADirectoryError: _description_
         """
-        Genera un archivo CSV con la respuesta de todos los espectros para el satélite especificado.
-        """
+
         if not os.path.isdir(os.path.dirname(output_path)):
             raise NotADirectoryError(f"The directory '{os.path.dirname(output_path)}' does not exist.")
 
@@ -166,9 +220,16 @@ class asd():
         print(f'Data saved to {output_path}')
 
     def specsTable(self, output_dir):
+
+        """Generate a csv for each spectrum with the expected bands values for all the satellites available
+
+        Args:
+            output_dir (Path): Path to store the csv files
+
+        Raises:
+            NotADirectoryError: Error message in case the path provided is not valid
         """
-        Genera un archivo CSV por cada espectro con los valores de todos los satélites disponibles para cada espectro.
-        """
+
         if not os.path.isdir(output_dir):
             raise NotADirectoryError(f"The provided output directory '{output_dir}' does not exist.")
 
@@ -195,4 +256,3 @@ class asd():
             output_path = os.path.join(output_dir, f'{name}_all_sats.csv')
             all_sat_data_df.to_csv(output_path, index=True)
             print(f'Data saved to {output_path}')
-
