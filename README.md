@@ -20,7 +20,7 @@ netops_cadiz have been designed to provide the theoretical values of the satelli
 
 To this end, an Excel table (we need to change this) has been created in which the spectral response function of each band for the aforementioned satellites/sensors is stored. 
   
-![](https://i.imgur.com/Mtr7N1V.png)
+![](https://i.imgur.com/jKvuZkj.jpeg)
 
 
 The objective is to combine each measured spectrum with each spectral response function of the sensor in order to obtain a weighted measurement that reflects how the spectrum would be captured by the sensor.
