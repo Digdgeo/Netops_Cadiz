@@ -50,18 +50,19 @@ Output would be something like this:
 
 ![](https://i.imgur.com/ZK77imQ.png)
 
-There are also 3 more methods:
+There are also 4 more methods:
 
 * *plotSpecs* To plot several spectrum and satellite response profiles.
 * *satTable* To generate a table with teh response for the selected satellite for all the spectrums inside a folder.
-* *specsTable* To generate one table for each specturm inside a folder with the expected values for all the satellites. 
+* *specsTable* To generate one table for each specturm inside a folder with the expected values for all the satellites.
+* *ndiCalc* To compute a Normalized Difference Index between 2 parts of the spectrum and its equivalent bands in all the satellites 
 
-There is a notebook showing more in deep the usage of the asd class. You sould find it [here](https://github.com/Digdgeo/Netops_Cadiz/blob/master/examples/netops_example.ipynb)
+There's a tutorial that goes into more detail about how to use the ***asd*** class and all its methods.. You sould find it [here](https://github.com/Digdgeo/Netops_Cadiz/blob/master/examples/netops_example.ipynb)
 
 
-## ToDO
+## ToDo
 
-Lots of things, main idea right now (moreover adding more satellites to get the spectral response, such as MODIS, ASTER or Sentinel 3) is to add the possibility to work with hyperspectral satellites as inputs.
+Lots of things, main idea right now (moreover adding more satellites to get the spectral response, such as MODIS, ASTER or Sentinel 3) is to add the possibility to work with hyperspectral satellites as inputs (also outputs?).
 
 ## Acknowledgements
 

@@ -270,8 +270,8 @@ class asd():
             print(f'Data saved to {output_path}')
 
 
-    def calcular_ndi(self, spec_path, b1, b2):
-        
+    def ndiCalc(self, spec_path, b1, b2):
+
         """Method to calculate Normalized Differnece Index between 2 parts of the spectrums and its
         equivalents bands in the satellites
 
