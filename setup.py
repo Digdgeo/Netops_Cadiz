@@ -22,6 +22,7 @@ setup(
 	version='0.1.0',
 	description='Python package to retrieve spectral values for satellite bands from field Spectroradiometers data',
 	long_description=long_description,
+    long_description_content_type="text/markdown",
 	url='https://github.com/Digdgeo/Netops_Cadiz',
 	python_requires='>=3.8',
 	author='Diego Garcia Diaz, Maria Dolores Raya-Sereno',
