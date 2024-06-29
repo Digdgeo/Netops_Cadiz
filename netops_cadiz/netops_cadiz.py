@@ -282,22 +282,23 @@ class asd():
 
     def ndiCalc(self, spec_path, b1, b2):
         
-        """Method to calculate Normalized Differnece Index between 2 parts of the spectrums and its
-        equivalents bands in the satellites
-
-        Args:
-            spec_path (Path): Full path to the txt or asd spectrum file
-            b1 (List): List with the band 1 string name of the band/spectrum part, and lower and upper tresholds
-            b2 (List): List with the band 2 string name of the band/spectrum part, and lower and upper tresholds
-
-        Returns:
-            Dict: Dict wiht the NDI values for the spectrum and all the satellites
         """
-
+        Method to calculate Normalized Difference Index between 2 parts of the spectrums and its
+        equivalents bands in the satellites.
+    
+        Args:
+            spec_path (Path): Full path to the txt or asd spectrum file.
+            b1 (List): List with the band 1 string name of the band/spectrum part, and lower and upper thresholds.
+            b2 (List): List with the band 2 string name of the band/spectrum part, and lower and upper thresholds.
+    
+        Returns:
+            Dict: Dict with the NDI values for the spectrum and all the satellites.
+        """
+    
         b1_name, b1_lower, b1_upper = b1
         b2_name, b2_lower, b2_upper = b2
     
-        # Dict for mapping names
+        # Definir band_name_mapping dentro del método
         band_name_mapping = {
             'MSI': {
                 'Coastal blue': 'B1',
@@ -348,41 +349,94 @@ class asd():
             }
         }
     
-        # Getting spectrum values
-        espectro_vals = self.spec2sat(spec_path, plot=False, print_values=False)
+        # Empty dicts
+        espectro_ndi = {}
+        sat_ndis = {}
     
-        # Mapping names
-        b1_real_name = band_name_mapping[self.sensor].get(b1_name)
-        b2_real_name = band_name_mapping[self.sensor].get(b2_name)
+        # Spec values NOT self.sats
+        try:
+            # Reading spectrum
+            if spec_path.endswith('.txt'):
+                try:
+                    datos_ASD = pd.read_csv(spec_path, sep="\t", decimal=".", encoding='utf-8', on_bad_lines='skip')
+                except UnicodeDecodeError:
+                    datos_ASD = pd.read_csv(spec_path, sep="\t", decimal=".", encoding='latin1', on_bad_lines='skip')
+            elif spec_path.endswith('.asd'):
+                s = specdal.Spectrum(filepath=spec_path)
+                datos_ASD = s.measurement.to_frame()
+                datos_ASD.reset_index(inplace=True)
+            else:
+                print('Sorry, but right now we can only process ".txt" and ".asd" files')
+                return None
     
-        # Obtener valores de las bandas del espectro especificadas
-        valor_b1_espectro = espectro_vals.loc[b1_real_name, 'MediaPonderada' + self.sat]
-        valor_b2_espectro = espectro_vals.loc[b2_real_name, 'MediaPonderada' + self.sat]
+            # Rename Columns
+            name = os.path.split(spec_path)[1].split('.')[0]
+            datos_ASD.columns = ["Wavelength", name]
     
-        # Spectrum NDI
-        ndi_espectro = (valor_b1_espectro - valor_b2_espectro) / (valor_b1_espectro + valor_b2_espectro)
+            # Selecting spectrum part between selected wavelengths 
+            b1_espectro = datos_ASD[(datos_ASD['Wavelength'] >= b1_lower) & (datos_ASD['Wavelength'] <= b1_upper)]
+            b2_espectro = datos_ASD[(datos_ASD['Wavelength'] >= b2_lower) & (datos_ASD['Wavelength'] <= b2_upper)]
     
-        # Dict to store the sat values
-        ndi_values = {'Espectro': ndi_espectro}
+            if b1_espectro.empty or b2_espectro.empty:
+                raise ValueError(f"Cannot find data for the specified wavelength ranges: {b1_lower}-{b1_upper}, {b2_lower}-{b2_upper}")
     
-        # NDI loop for each sat
-        for sat, (sensor, sheet, color) in self.sats.items():
-            self.sensor = sensor
-            self.sat_data = pd.read_excel(self.sensores, sheet_name=sheet)
+            # Spectrum mean
+            valor_b1_espectro = b1_espectro[name].mean()
+            valor_b2_espectro = b2_espectro[name].mean()
     
-            # Applying spec2sat to get values
-            sat_vals = self.spec2sat(spec_path, plot=False, print_values=False)
-        
-            # Mapping names
-            b1_real_name = band_name_mapping[sensor].get(b1_name)
-            b2_real_name = band_name_mapping[sensor].get(b2_name)
+            # Spectrum NDI
+            ndi_espectro = (valor_b1_espectro - valor_b2_espectro) / (valor_b1_espectro + valor_b2_espectro)
+            #print(f"NDI del espectro: {ndi_espectro}")
     
-            # Getting sat bands values
-            valor_b1_sat = sat_vals.loc[b1_real_name, 'MediaPonderada' + self.sat]
-            valor_b2_sat = sat_vals.loc[b2_real_name, 'MediaPonderada' + self.sat]
-        
-            # NDI Calculation
-            ndi_sat = (valor_b1_sat - valor_b2_sat) / (valor_b1_sat + valor_b2_sat)
-            ndi_values[sat] = ndi_sat
+            # Saving spectrum NDI
+            espectro_ndi['Espectro'] = ndi_espectro
+    
+        except Exception as e:
+            print(f"Error durante la obtención de valores del espectro: {e}")
+            espectro_ndi['Espectro'] = None
+    
+        # Save original vals for sat y sensor
+        original_sat = self.sat
+        original_sensor = self.sensor
+    
+        # Getting satellite data
+        try:
+            for sat, (sensor, sheet, color) in self.sats.items():
+                self.sensor = sensor
+                self.sat = sat
+                self.sat_data = pd.read_excel(self.sensores, sheet_name=sheet)
+    
+                # Applying spec2sat to get values
+                sat_vals = self.spec2sat(spec_path, plot=False, print_values=False)
+                #print(f"sat_vals para {self.sat}:\n{sat_vals}")
+    
+                # Mapping names
+                b1_real_name = band_name_mapping[sensor].get(b1_name)
+                b2_real_name = band_name_mapping[sensor].get(b2_name)
+    
+                if b1_real_name is None or b2_real_name is None:
+                    print(f"Cannot find band names: {b1_name}, {b2_name} for sensor {sensor}")
+                    continue
+    
+                # Getting sat bands values
+                valor_b1_sat = sat_vals.loc[b1_real_name, 'MediaPonderada' + self.sat]
+                valor_b2_sat = sat_vals.loc[b2_real_name, 'MediaPonderada' + self.sat]
+    
+                # NDI Calculation
+                ndi_sat = (valor_b1_sat - valor_b2_sat) / (valor_b1_sat + valor_b2_sat)
+                sat_ndis[sat] = ndi_sat
+                #print(f"NDI para {self.sat}: {ndi_sat}")
+    
+        except Exception as e:
+            print(f"Error durante la obtención de valores de los satélites: {e}")
+    
+        finally:
+            # Restart params
+            self.sat = original_sat
+            self.sensor = original_sensor
+            self.sat_data = pd.read_excel(self.sensores, sheet_name=self.sats[self.sat][1])  # Restaurar self.sat_data también
+    
+        # Merging dicts with spec and sats NDI
+        ndi_values = {**espectro_ndi, **sat_ndis}
     
         return ndi_values
