@@ -1,6 +1,6 @@
 # Netops_Cadiz
 
-This is a tiny Python library that aims to facilitate the retrieval of spectral responses for a range of satellites (Sentinel 2 A&B (MSI sensor) and Landsat 4-9 (TM, ETM+, OLI & OLI2 sensors)) from field radiometry data obtained with [ASD radiometers](https://www.malvernpanalytical.com/es/products/product-range/asd-range/fieldspec-range).
+This is a tiny Python library that aims to facilitate the retrieval of spectral responses for a range of satellites (Sentinel 2 A&B (MSI sensor), Landsat 4-9 (TM, ETM+, OLI & OLI2 sensors)) and drone cameras (just Sequoia at this point, but more will be added) from field spectroradiometry data obtained with [ASD Spectroradiometers](https://www.malvernpanalytical.com/es/products/product-range/asd-range/fieldspec-range).
 
 ![](https://i.imgur.com/mW97kxl.png)
 
@@ -55,16 +55,19 @@ There are also 4 more methods:
 * *plotSpecs* To plot several spectrum and satellite response profiles.
 * *satTable* To generate a table with teh response for the selected satellite for all the spectrums inside a folder.
 * *specsTable* To generate one table for each specturm inside a folder with the expected values for all the satellites.
-* *ndiCalc* To compute a Normalized Difference Index between 2 parts of the spectrum and its equivalent bands in all the satellites 
+* *ndiCalc* To compute a Normalized Difference Index between 2 parts of the spectrum and its equivalent bands in all the satellites/sensors available. 
 
 There's a tutorial that goes into more detail about how to use the ***asd*** class and all its methods.. You sould find it [here](https://github.com/Digdgeo/Netops_Cadiz/blob/master/examples/netops_example.ipynb)
 
 
 ## ToDo
 
-Lots of things, main idea right now (moreover adding more satellites to get the spectral response, such as MODIS, ASTER or Sentinel 3) is to add the possibility to work with hyperspectral satellites as inputs (also outputs?).
+Lots of things, main idea right now (moreover adding more satellites and drone cameras to get the spectral response, such as MODIS, ASTER, Sentinel 3, Micasense, etc...) is to add the possibility to work with hyperspectral satellites as inputs (also outputs?). 
+
+*working with other spectrometers should be immediate, but I have not had access to other data to test it yet.*
 
 ## Acknowledgements
 
  - [PTI Teledetec](https://awesomeopensource.com/project/elangosundar/awesome-README-templates): An interdisciplinary thematic platform to coordinate and integrate the remote sensing activities of Spanish Research Council.
+ - To all the teachers of the course [Spectroradiometry as a support for Remote Sensing research: Fundamentals and applications.](https://netops.csic.es/2024/03/30/curso-espectro-radiometria-como-soporte-a-la-investigacion-en-teledeteccion-fundamentos-y-aplicaciones/)
  - Special thanks to **Joan Cristian Padró** because he performed the interpolation needed to correctly calculate some Landsat bands for his article [Radiometric Correction of Simultaneously Acquired Landsat-7/Landsat-8 and Sentinel-2A Imagery Using Pseudoinvariant Areas (PIA): Contributing to the Landsat Time Series Legacy](https://www.mdpi.com/2072-4292/9/12/1319).

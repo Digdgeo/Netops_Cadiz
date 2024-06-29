@@ -18,12 +18,22 @@ class asd():
 
         self.sensores = sensores
         self.spec_path = spec_path
-        self.sats = {  'S2A': ['MSI', 1, 'blue'],'S2B': ['MSI', 2, 'green'],'L8': ['OLI', 3, 'red'],'L9': ['OLI', 4, 'purple'],'L7': ['ETM+', 7, 'orange'],'L5': ['TM', 6, 'brown'], 'L4': ['TM', 5, 'pink']}
-        self.sensors = {'MSI': {"B1": [np.arange(412, 457), 443, 'Coastal blue'], "B2": [np.arange(456, 534), 490, 'Blue'], "B3": [np.arange(538, 584), 560, 'Green'], "B4": [np.arange(646, 685), 665, 'Red'], "B5": [np.arange(695, 715), 705, 'Red edge 1'], "B6": [np.arange(731, 760), 740, 'Red edge 2'], "B7": [np.arange(769, 798), 783, 'Red edge 3'], "B8": [np.arange(760, 908), 842, 'Nir'], "B8A": [np.arange(837, 882), 865, 'Nir 8A'], "B9": [np.arange(932, 959), 945, 'Water vapour'], "B10": [np.arange(1337, 1413), 1375, 'Cirrus'], "B11": [np.arange(1539, 1683), 1610, 'Swir 1'], "B12": [np.arange(2078, 2321), 2190, 'Swir 2']},
+        self.sats = { 'S2A': ['MSI', 1, 'blue'],'S2B': ['MSI', 2, 'green'],'L8': ['OLI', 3, 'red'],'L9': ['OLI', 4, 'purple'],'L7': ['ETM+', 7, 'orange'],
+                     'L5': ['TM', 6, 'brown'], 'L4': ['TM', 5, 'pink'], 'SQ': ['Sequoia', 8, 'olive']}
+        self.sensors = {'MSI': {"B1": [np.arange(412, 457), 443, 'Coastal blue'], "B2": [np.arange(456, 534), 490, 'Blue'], "B3": [np.arange(538, 584), 560, 'Green'], 
+                                "B4": [np.arange(646, 685), 665, 'Red'], "B5": [np.arange(695, 715), 705, 'Red edge 1'], "B6": [np.arange(731, 760), 740, 'Red edge 2'], 
+                                "B7": [np.arange(769, 798), 783, 'Red edge 3'], "B8": [np.arange(760, 908), 842, 'Nir'], "B8A": [np.arange(837, 882), 865, 'Nir 8A'], 
+                                "B9": [np.arange(932, 959), 945, 'Water vapour'], "B10": [np.arange(1337, 1413), 1375, 'Cirrus'], "B11": [np.arange(1539, 1683), 1610, 'Swir 1'], 
+                                "B12": [np.arange(2078, 2321), 2190, 'Swir 2']},
                         'OLI': {"B1": [np.arange(435, 451), 443, 'Coastal blue'], "B2": [np.arange(452, 512), 482, 'Blue'], "B3": [np.arange(533, 590), 562, 'Green'], 
-                                "B8": [np.arange(503, 676), 590, 'Pan'], "B4": [np.arange(636, 673), 655, 'Red'], "B5": [np.arange(851, 879), 865, 'Nir'], "B9": [np.arange(1363, 1384), 1374, 'Cirrus'], "B6": [np.arange(1566, 1651), 1609, 'Swir 1'], "B7": [np.arange(2107, 2294), 2200, 'Swir 2']},
-                        'ETM+': {"B1": [np.arange(441, 514), 478, 'Blue'], "B2": [np.arange(519, 601), 560, 'Green'], "B3": [np.arange(631, 692), 662, 'Red'], "B4": [np.arange(772, 898), 835, 'Nir'], "B5": [np.arange(1547, 1749), 1648, 'Swir 1'], "B7": [np.arange(2064, 2345), 2205, 'Swir 2']},
-                        'TM': {"B1": [np.arange(441, 514), 478, 'Blue'], "B2": [np.arange(519, 601), 560, 'Green'], "B3": [np.arange(631, 692), 662, 'Red'], "B4": [np.arange(772, 898), 835, 'Nir'], "B5": [np.arange(1547, 1749), 1648, 'Swir 1'], "B7": [np.arange(2080, 2345), 2205, 'Swir 2']}}
+                                "B8": [np.arange(503, 676), 590, 'Pan'], "B4": [np.arange(636, 673), 655, 'Red'], "B5": [np.arange(851, 879), 865, 'Nir'], 
+                                "B9": [np.arange(1363, 1384), 1374, 'Cirrus'], "B6": [np.arange(1566, 1651), 1609, 'Swir 1'], "B7": [np.arange(2107, 2294), 2200, 'Swir 2']},
+                        'ETM+': {"B1": [np.arange(441, 514), 478, 'Blue'], "B2": [np.arange(519, 601), 560, 'Green'], "B3": [np.arange(631, 692), 662, 'Red'], 
+                                 "B4": [np.arange(772, 898), 835, 'Nir'], "B5": [np.arange(1547, 1749), 1648, 'Swir 1'], "B7": [np.arange(2064, 2345), 2205, 'Swir 2']},
+                        'TM': {"B1": [np.arange(441, 514), 478, 'Blue'], "B2": [np.arange(519, 601), 560, 'Green'], "B3": [np.arange(631, 692), 662, 'Red'], 
+                               "B4": [np.arange(772, 898), 835, 'Nir'], "B5": [np.arange(1547, 1749), 1648, 'Swir 1'], "B7": [np.arange(2080, 2345), 2205, 'Swir 2']},
+                       'Sequoia': {"B1": [np.arange(510, 590), 550, 'Green'], "B2": [np.arange(620, 700), 660, 'Red'], "B3": [np.arange(725, 745), 735, 'Red edge 2'], 
+                                   "B4": [np.arange(750, 830), 790, 'Nir']}}
         
         self.sat = sat
         if sat not in self.sats:
@@ -271,7 +281,7 @@ class asd():
 
 
     def ndiCalc(self, spec_path, b1, b2):
-
+        
         """Method to calculate Normalized Differnece Index between 2 parts of the spectrums and its
         equivalents bands in the satellites
 
@@ -329,6 +339,12 @@ class asd():
                 'Nir': 'B4',
                 'Swir 1': 'B5',
                 'Swir 2': 'B7'
+            },
+            'Sequoia': {
+                'Green': 'B1',
+                'Red': 'B2',
+                'Red edge 2': 'B3',
+                'Nir': 'B4'
             }
         }
     
