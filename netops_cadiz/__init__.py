@@ -1,1 +1,1 @@
-from netops_cadiz import asd
+from netops_cadiz import *

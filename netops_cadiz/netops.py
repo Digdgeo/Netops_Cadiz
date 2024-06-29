@@ -18,8 +18,8 @@ class asd():
 
         self.sensores = sensores
         self.spec_path = spec_path
-        self.sats = { 'S2A': ['MSI', 1, 'blue'],'S2B': ['MSI', 2, 'green'],'L8': ['OLI', 3, 'red'],'L9': ['OLI', 4, 'purple'],'L7': ['ETM+', 7, 'orange'],
-                     'L5': ['TM', 6, 'brown'], 'L4': ['TM', 5, 'pink'], 'SQ': ['Sequoia', 8, 'olive']}
+        self.sats = { 'S2A': ['MSI', 1, 'mediumblue'],'S2B': ['MSI', 2, 'deepskyblue'],'L8': ['OLI', 3, 'red'],'L9': ['OLI', 4, 'purple'],'L7': ['ETM+', 7, 'darkorange'],
+                     'L5': ['TM', 6, 'deeppink'], 'L4': ['TM', 5, 'orchid'], 'SQ': ['Sequoia', 8, 'lime']}
         self.sensors = {'MSI': {"B1": [np.arange(412, 457), 443, 'Coastal blue'], "B2": [np.arange(456, 534), 490, 'Blue'], "B3": [np.arange(538, 584), 560, 'Green'], 
                                 "B4": [np.arange(646, 685), 665, 'Red'], "B5": [np.arange(695, 715), 705, 'Red edge 1'], "B6": [np.arange(731, 760), 740, 'Red edge 2'], 
                                 "B7": [np.arange(769, 798), 783, 'Red edge 3'], "B8": [np.arange(760, 908), 842, 'Nir'], "B8A": [np.arange(837, 882), 865, 'Nir 8A'], 
